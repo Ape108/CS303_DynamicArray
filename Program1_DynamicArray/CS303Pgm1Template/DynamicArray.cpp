@@ -7,7 +7,7 @@
 
 #include "DynamicArray.h"
 
-void resizeArray(int*& arr1, int& count, int& size) {
+void resize(int*& arr1, int& count, int& size) {
     int newSize = size * 2;
     int* newArray = new int[newSize];
     for (int i=0; i<count; i++) {
@@ -17,13 +17,13 @@ void resizeArray(int*& arr1, int& count, int& size) {
     size = newSize;
 }
 
-void loadArray(int*& arr1, int& count, int& size, std::ifstream inFile) {
+void loadFromFile(int*& arr1, int& count, int& size, std::ifstream inFile) {
     int value;
     while (inFile >> value) {
         if (count + 1 > size) { // RESIZE (make helper function)
-            resizeArray(arr1, count, size);
+            resize(arr1, count, size);
         }
-        // FIXME: Complete loadArray()
+        // FIXME: Complete loadFromFile()
         
         
         
