@@ -12,15 +12,11 @@ using namespace std;
 int main()
 {
     cout << "Dynamic Arrays\n";
+    DynamicArray arr;
+    string filename;
     
-    try {
-        
-        
-        
-    } catch (const invalid_argument&) {
-        cout << "ERROR: Invalid argument." << endl;
-    } catch(...) {
-        
-    }
+    filename = "A1input.txt";
+    arr.loadFromFile(filename);
+    
     
 }

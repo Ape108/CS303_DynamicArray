@@ -81,14 +81,32 @@ void DynamicArray::loadFromFile(const std::string& filename) {
                     int value = std::stoi(token);
                     addValue(value);
                 } catch (const std::invalid_argument& e) {
+                    // Write error to error.txt file
+                    std::ofstream errorFile("error.txt", std::ios::app);
+                    if (errorFile.is_open()) {
+                        errorFile << "Invalid input found: " << token << std::endl;
+                        errorFile.close();
+                    }
                     throw std::invalid_argument("Invalid input found: " + token);
                 } catch (const std::out_of_range& e) {
+                    // Write error to error.txt file
+                    std::ofstream errorFile("error.txt", std::ios::app);
+                    if (errorFile.is_open()) {
+                        errorFile << "Input out of range: " << token << std::endl;
+                        errorFile.close();
+                    }
                     throw std::invalid_argument("Input out of range: " + token);
                 }
             }
         }
         inputFile.close(); // Close the file stream
     } else {
+        // Write file opening error to error.txt
+        std::ofstream errorFile("error.txt", std::ios::app);
+        if (errorFile.is_open()) {
+            errorFile << "Error opening file for reading: " << filename << std::endl;
+            errorFile.close();
+        }
         std::cerr << "Error opening file for reading!" << std::endl;
     }
 }
