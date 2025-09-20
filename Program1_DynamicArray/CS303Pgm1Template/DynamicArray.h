@@ -19,7 +19,7 @@ private:
     size_t count;        // Number of elements in array
     
     // Doubles array capacity when needed
-    void resize(int*& arr1, size_t& count, size_t& size);
+    void resize();
     
 public:
     // Constructor: initializes array with size 50
@@ -34,11 +34,11 @@ public:
     };
 
     // Returns index of value if found, else -1
-    size_t findValue(int target, int* arr1, size_t count) const;
+    size_t findValue(int target) const;
 
-    // Modifies value at index, returns original value
+    // Modifies value at index, prints original & new value
     // Throws exception if index/value invalid
-    int modifyValue(size_t index, int newValue, int* arr1);
+    void modifyValue(size_t index, int newValue);
 
     // Adds value to end, resizes if needed
     void addValue(int value);

@@ -7,17 +7,19 @@
 #include <iostream>
 #include "DynamicArray.h"
 
+using namespace std;
+
 int main()
 {
-    std::cout << "Dynamic Arrays\n";
+    cout << "Dynamic Arrays\n";
     
     try {
         
         
         
-    } catch (...) {
-        
-        
+    } catch (const invalid_argument&) {
+        cout << "ERROR: Invalid argument." << endl;
+    } catch(...) {
         
     }
     
