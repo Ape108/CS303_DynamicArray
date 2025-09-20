@@ -10,4 +10,15 @@
 int main()
 {
     std::cout << "Dynamic Arrays\n";
+    
+    try {
+        
+        
+        
+    } catch (...) {
+        
+        
+        
+    }
+    
 }
