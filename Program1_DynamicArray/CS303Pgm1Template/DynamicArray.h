@@ -34,7 +34,7 @@ public:
     };
 
     // Returns index of value if found, else -1
-    size_t findValue(int target) const;
+    int findValue(int target) const;
 
     // Modifies value at index, prints original & new value
     // Throws exception if index/value invalid
@@ -75,5 +75,5 @@ int getUserInput();
 void printMenu();
 
 // Accepts dynamic array and integer input 1-6, handles menu operations
-int menuHandler(int input, DynamicArray dynArr);
+int menuHandler(int input, DynamicArray& dynArr);
 

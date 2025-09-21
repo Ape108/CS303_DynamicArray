@@ -23,12 +23,13 @@ void DynamicArray::resize() {
 }
 
 // Returns index of value if found, else -1
-size_t DynamicArray::findValue(int target) const {
-    for (size_t i=0; i < count; i++) {
+int DynamicArray::findValue(int target) const {
+    for (int i=0; i < count; i++) {
         if (theData[i] == target) {
             return i;
         }
     }
+    std::cout << "Not Found. ";
     return -1;
 }
 
@@ -36,7 +37,8 @@ size_t DynamicArray::findValue(int target) const {
 // Throws exception if index/value invalid
 void DynamicArray::modifyValue(size_t index, int newValue) {
     if (index >= count) {
-        throw std::invalid_argument("Index out of range.");
+        std::cout << "Index out of range. " << std::endl;
+        return;
     }
     std::cout << "Original: " << theData[index] << std::endl;
 
@@ -57,9 +59,11 @@ void DynamicArray::addValue(int value) {
 // Removes value at index, shifts elements
 void DynamicArray::eraseValue(size_t index) {
     if (index >= count) {
-        throw std::invalid_argument("Index out of range.");
+        std::cout << "Index out of range. " << std::endl;
+        return;
     }
     // Shift items so as not to leave a gap
+    std::cout << "The value " << theData[index] << " was erased." << std::endl;
     for (size_t i = index + 1; i < count; i++) {
         theData[i-1] = theData[i];
     }
@@ -110,6 +114,7 @@ void DynamicArray::loadFromFile(const std::string& filename) {
             errorFile.close();
         }
         std::cerr << "Error opening file for reading!" << std::endl;
+        std::exit(1);
     }
 }
 
@@ -133,9 +138,15 @@ bool DynamicArray::isEmpty() const {
 
 // For debugging: print array contents
 void DynamicArray::printArray() const {
-    std::cout << "Array Contents: ";
+    std::cout << "Array Contents: " << std::endl;
+    int newLine = 1;
     for (size_t i=0; i < count; i++) {
         std::cout << theData[i] << " ";
+        if (newLine >= 10) {
+            std::cout << std::endl;
+            newLine = 0;
+        }
+        newLine++;
     }
     std::cout << std::endl;
 }
@@ -222,7 +233,7 @@ void printMenu() {
 }
 
 // Accepts integer input 1-6, handles menu operations
-int menuHandler(int input, DynamicArray dynArr) {
+int menuHandler(int input, DynamicArray& dynArr) {
     int target, newValue;
     size_t index;
     
@@ -232,9 +243,9 @@ int menuHandler(int input, DynamicArray dynArr) {
         std::cout << "Index: " << dynArr.findValue(target) << std::endl;
         
     } else if (input == 2) { // Modify Value
-        std::cout << "Enter target index: " << std::endl;
+        std::cout << "Enter target index: ";
         index = static_cast<size_t>(getRequiredInt());
-        std::cout << "Enter new value: " << std::endl;
+        std::cout << "Enter new value: ";
         newValue = getRequiredInt();
         dynArr.modifyValue(index, newValue);
         
@@ -242,12 +253,13 @@ int menuHandler(int input, DynamicArray dynArr) {
         dynArr.printArray();
         
     } else if (input == 4) {// Add Value
-        std::cout << "Enter new value: " << std::endl;
+        std::cout << "Enter new value: ";
         newValue = getRequiredInt();
         dynArr.addValue(newValue);
+        std::cout << "The value " << newValue << " was added." << std::endl;
         
     } else if (input == 5) { // Erase Value
-        std::cout << "Enter target index: " << std::endl;
+        std::cout << "Enter target index: ";
         index = static_cast<size_t>(getRequiredInt());
         dynArr.eraseValue(index);
         
