@@ -62,6 +62,18 @@ public:
     void printArray() const;
 };
 
+// Validate and return user inputted filename
+std::string getFilename();
 
+// Validate and return user inputted integer
+int getRequiredInt();
 
+// Prompt user for input to pass to menu
+int getUserInput();
+
+// Prints menu options
+void printMenu();
+
+// Accepts dynamic array and integer input 1-6, handles menu operations
+int menuHandler(int input, DynamicArray dynArr);
 

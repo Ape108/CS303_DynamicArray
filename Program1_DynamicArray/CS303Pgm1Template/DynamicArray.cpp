@@ -6,7 +6,9 @@
 //
 
 #include "DynamicArray.h"
-#include <sstream>
+#include <sstream>	
+#include <ios>
+#include <limits>
 
 
 
@@ -87,7 +89,7 @@ void DynamicArray::loadFromFile(const std::string& filename) {
                         errorFile << "Invalid input found: " << token << std::endl;
                         errorFile.close();
                     }
-                    throw std::invalid_argument("Invalid input found: " + token);
+                    
                 } catch (const std::out_of_range& e) {
                     // Write error to error.txt file
                     std::ofstream errorFile("error.txt", std::ios::app);
@@ -95,7 +97,7 @@ void DynamicArray::loadFromFile(const std::string& filename) {
                         errorFile << "Input out of range: " << token << std::endl;
                         errorFile.close();
                     }
-                    throw std::invalid_argument("Input out of range: " + token);
+                    
                 }
             }
         }
@@ -138,45 +140,123 @@ void DynamicArray::printArray() const {
     std::cout << std::endl;
 }
 
+// Helper functions for main loop
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-void loadFromFile(int*& arr1, int& count, int& size, std::ifstream inFile) {
-    int value;
-    while (inFile >> value) {
-        if (count + 1 > size) { // RESIZE (make helper function)
-            resize(arr1, count, size);
+std::string getFilename() {
+    std::string userInput;
+    do {
+        std::cout << "Please enter a valid filename: ";
+        // Get the entire line of input from the user and store it in userInput.
+        std::getline(std::cin, userInput);
+        
+        if (userInput.empty()) {
+            std::cout << "The input was empty. Please try again." << std::endl;
         }
-        // FIXME: Complete loadFromFile()
-        
-        
-        
-        
-        arr1[count] = value;
-        count++;
+
+    } while (userInput.empty());
+    
+    // Once a non-empty string is provided, the loop ends and the function returns the value.
+    return userInput;
+}
+
+int getRequiredInt() {
+    int userInput;
+    while (true) {
+        std::cin >> userInput;
+
+        // Check if the input operation failed (e.g., non-numeric input)
+        if (std::cin.fail()) {
+            std::cout << "Invalid input. Please enter a valid integer." << std::endl;
+            
+            // Clear the error state from std::cin
+            std::cin.clear();
+            
+            // Discard the rest of the invalid input from the buffer
+            // This is crucial to prevent an infinite loop on the same bad input.
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            
+            continue;
+        }
+
+        // There might be trailing characters (e.g., user entered "123 abc").
+        // We will discard the rest of the line to ensure the input buffer is clean
+        // for any subsequent input operations.
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        break;
+    }
+
+    return userInput;
+}
+
+// Prompt user for input to pass to menu
+int getUserInput() {
+    int input;
+    while (true) {
+        std::cout << "Please enter a number 1-6: ";
+        if (std::cin >> input) {
+            if (input >= 1 && input <= 6) {
+                return input;
+            } else {
+                std::cout << "Error: Number must be between 1 and 6. Please try again.\n";
+            }
+        } else {
+            // If the input was not a number, handle the error
+            std::cout << "Error: Invalid input. Please enter a whole number.\n";
+            // Clear the error flag from std::cin
+            std::cin.clear();
+            // Discard the rest of the invalid input from the buffer
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
     }
 }
-*/
 
+void printMenu() {
+    std::cout << "1. Find Value" << std::endl;
+    std::cout << "2. Modify Value" << std::endl;
+    std::cout << "3. Print Array" << std::endl;
+    std::cout << "4. Add Value" << std::endl;
+    std::cout << "5. Erase Value" << std::endl;
+    std::cout << "6. Quit" << std::endl;
+    std::cout << std::endl;
 
+}
 
-
-
-
-
-
+// Accepts integer input 1-6, handles menu operations
+int menuHandler(int input, DynamicArray dynArr) {
+    int target, newValue;
+    size_t index;
+    
+    if (input == 1) {// Find Value
+        std::cout << "Enter target value: ";
+        target = getRequiredInt();
+        std::cout << "Index: " << dynArr.findValue(target) << std::endl;
+        
+    } else if (input == 2) { // Modify Value
+        std::cout << "Enter target index: " << std::endl;
+        index = static_cast<size_t>(getRequiredInt());
+        std::cout << "Enter new value: " << std::endl;
+        newValue = getRequiredInt();
+        dynArr.modifyValue(index, newValue);
+        
+    } else if (input == 3) { // Print Array
+        dynArr.printArray();
+        
+    } else if (input == 4) {// Add Value
+        std::cout << "Enter new value: " << std::endl;
+        newValue = getRequiredInt();
+        dynArr.addValue(newValue);
+        
+    } else if (input == 5) { // Erase Value
+        std::cout << "Enter target index: " << std::endl;
+        index = static_cast<size_t>(getRequiredInt());
+        dynArr.eraseValue(index);
+        
+    } else if (input == 6) { // Quit
+        std::cout << "Exiting program..." << std::endl << "Goodbye!" << std::endl;
+        
+    }
+    return input;
+}
 
 
 

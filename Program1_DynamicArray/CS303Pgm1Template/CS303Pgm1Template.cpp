@@ -13,10 +13,16 @@ int main()
 {
     cout << "Dynamic Arrays\n";
     DynamicArray arr;
-    string filename;
-    
-    filename = "A1input.txt";
+    int input = 0;
+
+    string filename = getFilename();
     arr.loadFromFile(filename);
     
+    while (input != 6) {
+        printMenu();
+        input = getUserInput();
+        menuHandler(input, arr);
+    }
     
+    return 0;
 }
