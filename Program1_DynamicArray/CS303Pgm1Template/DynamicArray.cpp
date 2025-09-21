@@ -22,7 +22,8 @@ void DynamicArray::resize() {
     capacity = newSize;
 }
 
-// Returns index of value if found, else -1
+//PRE: target is a valid integer
+//POST: returns index of target if found in array, otherwise returns -1
 int DynamicArray::findValue(int target) const {
     for (int i=0; i < count; i++) {
         if (theData[i] == target) {
@@ -33,8 +34,8 @@ int DynamicArray::findValue(int target) const {
     return -1;
 }
 
-// Modifies value at index, prints original & new value
-// Throws exception if index/value invalid
+//PRE: index is a valid size_t, newValue is a valid integer
+//POST: value at index is changed to newValue, original and new values are printed to console
 void DynamicArray::modifyValue(size_t index, int newValue) {
     if (index >= count) {
         std::cout << "Index out of range. " << std::endl;
@@ -47,7 +48,8 @@ void DynamicArray::modifyValue(size_t index, int newValue) {
     std::cout << " Updated: " << theData[index] << std::endl;
 }
 
-// Adds value to end, resizes if needed
+//PRE: value is a valid integer
+//POST: value is added to end of array, array capacity is doubled if needed
 void DynamicArray::addValue(int value) {
     if (count >= capacity) {
         resize();
@@ -56,7 +58,8 @@ void DynamicArray::addValue(int value) {
     count++;
 }
 
-// Removes value at index, shifts elements
+//PRE: index is a valid size_t within array bounds
+//POST: value at index is removed, all elements after index are shifted left, count is decremented
 void DynamicArray::eraseValue(size_t index) {
     if (index >= count) {
         std::cout << "Index out of range. " << std::endl;
@@ -70,7 +73,8 @@ void DynamicArray::eraseValue(size_t index) {
     count--;
 }
 
-// Loads array from file, throws exception on invalid input
+//PRE: filename is a valid string representing an existing file path
+//POST: array is populated with integers from file, invalid inputs are logged to error.txt
 void DynamicArray::loadFromFile(const std::string& filename) {
     std::ifstream inputFile(filename); // Opens "example.txt" for reading
 
@@ -118,17 +122,20 @@ void DynamicArray::loadFromFile(const std::string& filename) {
     }
 }
 
-// Returns current number of elements
+//PRE: none
+//POST: returns the current number of elements in the array
 size_t DynamicArray::getCount() const {
     return count;
 }
 
-// Returns current array capacity
+//PRE: none
+//POST: returns the current capacity of the array
 size_t DynamicArray::getCapacity() const {
     return capacity;
 }
 
-// Checks if array is empty
+//PRE: none
+//POST: returns true if array has no elements, false otherwise
 bool DynamicArray::isEmpty() const {
     if (count == 0) {
         return true;
@@ -136,7 +143,8 @@ bool DynamicArray::isEmpty() const {
     return false;
 }
 
-// For debugging: print array contents
+//PRE: none
+//POST: array contents are printed to console, 10 elements per line
 void DynamicArray::printArray() const {
     std::cout << "Array Contents: " << std::endl;
     int newLine = 1;
@@ -153,6 +161,8 @@ void DynamicArray::printArray() const {
 
 // Helper functions for main loop
 
+//PRE: none
+//POST: returns a non-empty string entered by user
 std::string getFilename() {
     std::string userInput;
     do {
@@ -170,6 +180,8 @@ std::string getFilename() {
     return userInput;
 }
 
+//PRE: none
+//POST: returns a valid integer entered by user
 int getRequiredInt() {
     int userInput;
     while (true) {
@@ -199,7 +211,8 @@ int getRequiredInt() {
     return userInput;
 }
 
-// Prompt user for input to pass to menu
+//PRE: none
+//POST: returns an integer between 1 and 6 entered by user
 int getUserInput() {
     int input;
     while (true) {
@@ -221,6 +234,8 @@ int getUserInput() {
     }
 }
 
+//PRE: none
+//POST: menu options 1-6 are printed to console
 void printMenu() {
     std::cout << "1. Find Value" << std::endl;
     std::cout << "2. Modify Value" << std::endl;
@@ -232,7 +247,8 @@ void printMenu() {
 
 }
 
-// Accepts integer input 1-6, handles menu operations
+//PRE: input is an integer between 1-6, dynArr is a valid DynamicArray object
+//POST: performs the requested menu operation and returns the input value
 int menuHandler(int input, DynamicArray& dynArr) {
     int target, newValue;
     size_t index;

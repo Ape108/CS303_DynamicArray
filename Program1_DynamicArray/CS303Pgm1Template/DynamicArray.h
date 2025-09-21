@@ -33,47 +33,60 @@ public:
         theData = nullptr;
     };
 
-    // Returns index of value if found, else -1
+    //PRE: target is a valid integer
+    //POST: returns index of target if found in array, otherwise returns -1
     int findValue(int target) const;
 
-    // Modifies value at index, prints original & new value
-    // Throws exception if index/value invalid
+    //PRE: index is a valid size_t, newValue is a valid integer
+    //POST: value at index is changed to newValue, original and new values are printed to console
     void modifyValue(size_t index, int newValue);
 
-    // Adds value to end, resizes if needed
+    //PRE: value is a valid integer
+    //POST: value is added to end of array, array capacity is doubled if needed
     void addValue(int value);
 
-    // Removes value at index, shifts elements
+    //PRE: index is a valid size_t within array bounds
+    //POST: value at index is removed, all elements after index are shifted left, count is decremented
     void eraseValue(size_t index);
 
-    // Loads array from file, throws exception on invalid input
+    //PRE: filename is a valid string representing an existing file path
+    //POST: array is populated with integers from file, invalid inputs are logged to error.txt
     void loadFromFile(const std::string& filename);
 
-    // Returns current number of elements
+    //PRE: none
+    //POST: returns the current number of elements in the array
     size_t getCount() const;
 
-    // Returns current array capacity
+    //PRE: none
+    //POST: returns the current capacity of the array
     size_t getCapacity() const;
 
-    // Checks if array is empty
+    //PRE: none
+    //POST: returns true if array has no elements, false otherwise
     bool isEmpty() const;
 
-    // For debugging: print array contents
+    //PRE: none
+    //POST: array contents are printed to console, 10 elements per line
     void printArray() const;
 };
 
-// Validate and return user inputted filename
+//PRE: none
+//POST: returns a non-empty string entered by user
 std::string getFilename();
 
-// Validate and return user inputted integer
+//PRE: none
+//POST: returns a valid integer entered by user
 int getRequiredInt();
 
-// Prompt user for input to pass to menu
+//PRE: none
+//POST: returns an integer between 1 and 6 entered by user
 int getUserInput();
 
-// Prints menu options
+//PRE: none
+//POST: menu options 1-6 are printed to console
 void printMenu();
 
-// Accepts dynamic array and integer input 1-6, handles menu operations
+//PRE: input is an integer between 1-6, dynArr is a valid DynamicArray object
+//POST: performs the requested menu operation and returns the input value
 int menuHandler(int input, DynamicArray& dynArr);
 
